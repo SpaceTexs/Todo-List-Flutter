@@ -18,13 +18,13 @@ class TaskProvider {
       (e) => tasks.add(Task.fromJson(e)),
     );
     return tasks;
+  }
 
-    ///Converte o [object] em uma string JSON.
-    void writeTasks(List<Task> tasks) {
-      _storage.write(
-        taskKey,
-        jsonEncode(tasks),
-      );
-    }
+  ///Converte o [object] em uma string JSON.
+  void writeTasks(List<Task> tasks) {
+    _storage.write(
+      taskKey,
+      jsonEncode(tasks),
+    );
   }
 }
