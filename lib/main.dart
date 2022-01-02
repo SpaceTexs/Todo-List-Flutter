@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:todo_list_flutter/app/data/services/services.dart';
-
-import 'app/modules/home/view.dart';
+import 'package:todo_list_flutter/app/modules/home/widgets/binding.dart';
+import 'app/modules/home/widgets/view.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   await GetStorage.init();
@@ -19,7 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Todo List',
-      home: HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
+      initialBinding: HomeBinding(),
+      builder: EasyLoading.init(),
     );
   }
 }
