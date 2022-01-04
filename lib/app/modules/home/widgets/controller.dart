@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_flutter/app/data/models/task.dart';
@@ -13,7 +15,6 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     tasks.assignAll(taskRepository.readTasks());
     ever(tasks, (_) => taskRepository.writeTasks(tasks));
@@ -21,7 +22,6 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
   }
 

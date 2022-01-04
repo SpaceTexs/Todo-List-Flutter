@@ -34,7 +34,6 @@ class TaskCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           StepProgressIndicator(
-            //TODO change after finish todo CRUD
             totalSteps: 100,
             currentStep: 80,
             size: 5,
@@ -44,7 +43,6 @@ class TaskCard extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [color.withOpacity(0.5), color],
             ),
-
             unselectedGradientColor: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
