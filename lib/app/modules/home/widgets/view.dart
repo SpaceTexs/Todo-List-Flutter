@@ -30,11 +30,16 @@ class HomePage extends GetView<HomeController> {
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
                 children: [
-                  // TaskCard(
-                  //      task: Task(
-                  //        title: 'title', icon: 0xe59c, color: '#FF2B60E6 ')),
                   ...controller.tasks
-                      .map((element) => TaskCard(task: element))
+                      .map(
+                        (element) => LongPressDraggable(
+                          feedback: Opacity(
+                            opacity: 0.8,
+                            child: TaskCard(task: element),
+                          ),
+                          child: TaskCard(task: element),
+                        ),
+                      )
                       .toList(),
                   AddCard()
                 ],
@@ -42,6 +47,10 @@ class HomePage extends GetView<HomeController> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }
