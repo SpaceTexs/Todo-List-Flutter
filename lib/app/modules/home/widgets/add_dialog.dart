@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_flutter/app/core/utils/extensions.dart';
 import 'package:todo_list_flutter/app/modules/home/widgets/controller.dart';
@@ -23,6 +24,8 @@ class AddDialog extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       Get.back();
+                      homeCtrl.editCtrl.clear();
+                      homeCtrl.changeTask(null);
                     },
                     icon: Icon(Icons.close),
                   ),
@@ -30,7 +33,26 @@ class AddDialog extends StatelessWidget {
                     style: ButtonStyle(
                         overlayColor:
                             MaterialStateProperty.all(Colors.transparent)),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (homeCtrl.formKey.currentState!.validate()) {
+                        if (homeCtrl.task.value == null) {
+                          EasyLoading.showError('Please select task type');
+                        } else {
+                          var success = homeCtrl.updateTask(
+                            homeCtrl.task.value!,
+                            homeCtrl.editCtrl.text,
+                          );
+                          if (success) {
+                            EasyLoading.showSuccess('Todo item add success');
+                            Get.back();
+                            homeCtrl.changeTask(null);
+                          } else {
+                            EasyLoading.showError('Tdo item already exist');
+                          }
+                          homeCtrl.editCtrl.clear();
+                        }
+                      }
+                    },
                     child: Text(
                       'Done',
                       style: TextStyle(fontSize: 14.0),
@@ -93,21 +115,26 @@ class AddDialog extends StatelessWidget {
                           horizontal: 8.0,
                         ),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
-                              IconData(element.icon,
-                                  fontFamily: 'MaterialIcons'),
-                              color: HexColor.fromHex(element.color),
-                            ),
-                            SizedBox(
-                              width: 8.0,
-                            ),
-                            Text(
-                              element.title,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              children: [
+                                Icon(
+                                  IconData(element.icon,
+                                      fontFamily: 'MaterialIcons'),
+                                  color: HexColor.fromHex(element.color),
+                                ),
+                                SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  element.title,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                             if (homeCtrl.task.value == element)
                               Icon(
