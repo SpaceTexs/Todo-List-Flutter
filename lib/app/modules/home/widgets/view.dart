@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_flutter/app/data/models/task.dart';
 import 'package:todo_list_flutter/app/modules/home/widgets/add_card.dart';
 import 'package:todo_list_flutter/app/modules/home/widgets/controller.dart';
 import 'package:todo_list_flutter/app/core/utils/extensions.dart';
@@ -33,6 +35,11 @@ class HomePage extends GetView<HomeController> {
                   ...controller.tasks
                       .map(
                         (element) => LongPressDraggable(
+                          data: element,
+                          onDragStarted: () => controller.changeDeleting(true),
+                          onDraggableCanceled: (_, __) =>
+                              controller.changeDeleting(false),
+                          onDragEnd: (_) => controller.changeDeleting(false),
                           feedback: Opacity(
                             opacity: 0.8,
                             child: TaskCard(task: element),
@@ -48,9 +55,21 @@ class HomePage extends GetView<HomeController> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
+      floatingActionButton: DragTarget<Task>(
+        builder: (_, __, ___) {
+          return Obx(
+            () => FloatingActionButton(
+              backgroundColor:
+                  controller.deleting.value ? Colors.red : Colors.blue,
+              onPressed: () {},
+              child: Icon(controller.deleting.value ? Icons.delete : Icons.add),
+            ),
+          );
+        },
+        onAccept: (Task task) {
+          controller.deleteTask(task);
+          EasyLoading.showSuccess('Delete Sucess');
+        },
       ),
     );
   }
