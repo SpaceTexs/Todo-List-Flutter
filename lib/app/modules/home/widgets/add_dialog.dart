@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_flutter/app/core/utils/extensions.dart';
 import 'package:todo_list_flutter/app/modules/home/widgets/controller.dart';
 
 class AddDialog extends StatelessWidget {
@@ -66,6 +67,60 @@ class AddDialog extends StatelessWidget {
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 8.0,
+                top: 10.0,
+                right: 8.0,
+                bottom: 8.0,
+              ),
+              child: Text(
+                'Add to',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            ...homeCtrl.tasks
+                .map(
+                  (element) => Obx(
+                    () => InkWell(
+                      onTap: () => homeCtrl.changeTask(element),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: 8.0,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              IconData(element.icon,
+                                  fontFamily: 'MaterialIcons'),
+                              color: HexColor.fromHex(element.color),
+                            ),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            Text(
+                              element.title,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            if (homeCtrl.task.value == element)
+                              Icon(
+                                Icons.check,
+                                color: Colors.blue,
+                              )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
           ],
         ),
       ),
