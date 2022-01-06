@@ -14,6 +14,8 @@ class HomeController extends GetxController {
   final deleting = false.obs;
   final tasks = <Task>[].obs;
   final task = Rx<Task?>(null);
+  final doingTodos = <dynamic>[].obs;
+  final doneTodos = <dynamic>[].obs;
 
   @override
   void onInit() {
