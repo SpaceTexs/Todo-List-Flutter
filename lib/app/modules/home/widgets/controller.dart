@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_overrides
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_flutter/app/data/models/task.dart';
@@ -42,6 +43,20 @@ class HomeController extends GetxController {
     task.value = select;
   }
 
+  void changeTodos(List<dynamic> select) {
+    doingTodos.clear();
+    doneTodos.clear();
+    for (int i = 0; i < select.length; i++) {
+      var todo = select[i];
+      var status = todo['done'];
+      if (status == true) {
+        doneTodos.add(todo);
+      } else {
+        doingTodos.add(todo);
+      }
+    }
+  }
+
   bool addTask(Task task) {
     if (tasks.contains(task)) {
       return false;
@@ -70,5 +85,24 @@ class HomeController extends GetxController {
 
   bool containeTodo(List todos, String title) {
     return todos.any((element) => element['title'] == title);
+  }
+
+  bool addTodo(String title) {
+    var todo = {'title': title, 'done': false};
+    if (doingTodos
+        .any((element) => mapEquals<String, dynamic>(todo, element))) {
+      return false;
+    }
+    var doneTodo = {
+      'title': title,
+      'done': true,
+    };
+    if (doneTodos
+        .any((element) => mapEquals<String, dynamic>(doneTodo, element))) {
+      return false;
+    }
+    // ignore: dead_code
+    doingTodos.add(todo);
+    return true;
   }
 }
